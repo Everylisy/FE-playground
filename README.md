@@ -1,8 +1,7 @@
 # react-master
-> React Master Class
 
-## styled-component
+> styled-component
 
-## TypeScript
+> TypeScript
 
-## Clone Coding
+> Clone Coding
