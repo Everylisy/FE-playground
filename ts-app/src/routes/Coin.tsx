@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 import {
   Link,
   Outlet,
@@ -154,12 +155,18 @@ function Coin() {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
 
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>{state ? state : loading ? "Loading.." : infoData?.name}</title>
+      </Helmet>
       <Header>
         <Title>{state ? state : loading ? "Loading.." : infoData?.name}</Title>
       </Header>
@@ -178,7 +185,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>{"$" + tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -194,17 +201,13 @@ function Coin() {
           </Overview>
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>
-                chart
-              </Link>
+              <Link to={`/${coinId}/chart`}>chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>
-                price
-              </Link>
+              <Link to={`/${coinId}/price`}>price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={{coinId}}/>
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
