@@ -45,6 +45,7 @@ const Overview = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -67,6 +68,7 @@ const Tabs = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
+  margin-bottom: 20px;
   gap: 10px;
 `;
 
@@ -174,6 +176,7 @@ function Coin() {
         <Loader>Loading...</Loader>
       ) : (
         <>
+          <Link to={"/"} style={{color:"#8c7ae6"}}>&larr; Back to Home</Link>
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
@@ -207,7 +210,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={{ coinId }} />
+          <Outlet context={tickersData} />
         </>
       )}
     </Container>
