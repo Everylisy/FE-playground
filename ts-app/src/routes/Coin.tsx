@@ -10,12 +10,6 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
-import Chart from "./Chart";
-import Price from "./Price";
-
-// interface RouteParams {
-//     coinId: string;
-// }
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -176,7 +170,9 @@ function Coin() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Link to={"/"} style={{color:"#8c7ae6"}}>&larr; Back to Home</Link>
+          <Link to={"/"} style={{ color: "#8c7ae6" }}>
+            &larr; Back to Home
+          </Link>
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
