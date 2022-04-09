@@ -1,5 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
@@ -69,10 +72,14 @@ a {
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <Router />
-      <GlobalStyle />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <Router isDark={isDark} toggleDark={toggleDark} />
+        <GlobalStyle />
+      </ThemeProvider>
     </>
   );
 }
