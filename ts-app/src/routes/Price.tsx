@@ -29,6 +29,7 @@ const PriceTitle = styled.h2`
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  color: ${(props) => props.theme.accentColor};
 `;
 
 const PriceSubTitle = styled.span`
