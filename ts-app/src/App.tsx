@@ -2,7 +2,6 @@ import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
 
@@ -65,6 +64,7 @@ body {
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   line-height: 1.5;
+  transition: background 0.1s linear;
 }
 a {
   text-decoration: none;
@@ -75,11 +75,12 @@ a {
 
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
+  console.warn = console.error = () => {};
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <Router />
         <GlobalStyle />
+        <Router />
       </ThemeProvider>
     </>
   );

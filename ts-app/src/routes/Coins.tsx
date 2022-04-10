@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -58,6 +57,44 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const DarkModeBtn = styled.button`
+  width: 130px;
+  height: 40px;
+  padding: 10px 25px;
+  border: 0.5px solid ${(props) => props.theme.accentColor};
+  font-family: "Montserrat", sans-serif;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  background: ${(props) => props.theme.accentColor};
+  color: white;
+  z-index: 1;
+  &:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: whitesmoke;
+    transition: all 0.3s ease;
+  }
+  &:hover {
+    color: #000;
+  }
+  &:hover:after {
+    left: 0;
+    width: 100%;
+  }
+  &:active {
+    top: 2px;
+  }
+`;
+
 interface Icoin {
   id: string;
   name: string;
@@ -80,7 +117,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>COIN</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
+        <DarkModeBtn onClick={toggleDarkAtom}>Dark Mode</DarkModeBtn>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

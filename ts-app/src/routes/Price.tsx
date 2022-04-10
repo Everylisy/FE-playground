@@ -1,10 +1,13 @@
 import { useOutletContext } from "react-router";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { isDarkAtom } from "../atoms";
 
-const Overview = styled.div`
+const Overview = styled.div<IDarkProps>`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) =>
+    props.isDark ? "rgba(0, 0, 0, 0.5)" : "white"};
   padding: 10px 20px;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -69,12 +72,17 @@ interface IPriceData {
   };
 }
 
+interface IDarkProps {
+  isDark: boolean;
+}
+
 function Price() {
   const data = useOutletContext<IPriceData>();
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       <PriceTitle>percent change</PriceTitle>
-      <Overview>
+      <Overview isDark={isDark}>
         <PriceSubTitle>hour</PriceSubTitle>
         <OverviewItem>
           <span>6H</span>
@@ -89,7 +97,7 @@ function Price() {
           <span>{data?.quotes.USD.percent_change_24h}</span>
         </OverviewItem>
       </Overview>
-      <Overview>
+      <Overview isDark={isDark}>
         <PriceSubTitle>
           <p>date</p>
         </PriceSubTitle>
@@ -107,7 +115,7 @@ function Price() {
         </OverviewItem>
       </Overview>
       <PriceTitle>ETC</PriceTitle>
-      <Overview>
+      <Overview isDark={isDark}>
         <OverviewItem>
           <span>ath price</span>
           <span>{data?.quotes.USD.ath_price.toFixed(3)}</span>

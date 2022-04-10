@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
 import {
@@ -10,6 +9,8 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -35,10 +36,11 @@ const Loader = styled.span`
   font-size: 20px;
 `;
 
-const Overview = styled.div`
+const Overview = styled.div<IDarkProps>`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) =>
+    props.isDark ? "rgba(0, 0, 0, 0.5)" : "white"};
   margin-top: 5px;
   padding: 10px 20px;
   border-radius: 10px;
@@ -66,13 +68,14 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<IIsActive>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+  background-color: ${(props) =>
+    props.isDark ? "rgba(0, 0, 0, 0.5)" : "white"};
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
@@ -80,6 +83,15 @@ const Tab = styled.span<{ isActive: boolean }>`
     padding: 7px 0px;
   }
 `;
+
+interface IDarkProps {
+  isDark: boolean;
+}
+
+interface IIsActive {
+  isActive: boolean;
+  isDark: boolean;
+}
 
 interface RouterState {
   state: string;
@@ -156,6 +168,7 @@ function Coin() {
       refetchInterval: 5000,
     }
   );
+  const isDark = useRecoilValue(isDarkAtom);
 
   const loading = infoLoading || tickersLoading;
   return (
@@ -173,7 +186,7 @@ function Coin() {
           <Link to={"/"} style={{ color: "#8c7ae6" }}>
             &larr; Back to Home
           </Link>
-          <Overview>
+          <Overview isDark={isDark}>
             <OverviewItem>
               <span>Rank:</span>
               <span>{infoData?.rank}</span>
@@ -188,7 +201,7 @@ function Coin() {
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
-          <Overview>
+          <Overview isDark={isDark}>
             <OverviewItem>
               <span>Total Suply:</span>
               <span>{tickersData?.total_supply}</span>
@@ -199,10 +212,10 @@ function Coin() {
             </OverviewItem>
           </Overview>
           <Tabs>
-            <Tab isActive={chartMatch !== null}>
+            <Tab isDark={isDark} isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>chart</Link>
             </Tab>
-            <Tab isActive={priceMatch !== null}>
+            <Tab isDark={isDark} isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>price</Link>
             </Tab>
           </Tabs>
