@@ -30,16 +30,32 @@ import { useForm } from "react-hook-form";
   );
 } */
 
-interface IForm {}
+interface IForm {
+  Email: string;
+  FirstName: string;
+  LastName: string;
+  UserName: string;
+  Password: string;
+  PasswordConfirm: string;
+  extraError?: string;
+}
 
 function ToDoList() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onValid = (data: any) => {
-    console.log(data);
+    setError,
+  } = useForm<IForm>();
+  const onValid = (data: IForm) => {
+    if (data.Password !== data.PasswordConfirm) {
+      setError(
+        "PasswordConfirm",
+        { message: "패스워드가 다릅니다." },
+        { shouldFocus: true }
+      );
+    }
+    // setError("extraError", { message: "서버가 오프라인 입니다." });
   };
   console.log(errors);
   return (
@@ -63,6 +79,12 @@ function ToDoList() {
         <input
           {...register("FirstName", {
             required: "First Name은 필수 입력 항목입니다.",
+            validate: {
+              noYoungWoo: (value) =>
+                value.includes("YoungWoo") ? "허용되지 않은 이름입니다." : true,
+              noNoah: (value) =>
+                value.includes("Noah") ? "허용되지 않은 이름입니다." : true,
+            },
           })}
           type="text"
           placeholder="First Name"
@@ -107,6 +129,7 @@ function ToDoList() {
         />
         <span>{errors?.PasswordConfirm?.message}</span>
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
