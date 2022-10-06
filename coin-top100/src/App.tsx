@@ -4,9 +4,9 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
+import { HelmetProvider } from "react-helmet-async";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 
 // reset CSS
 html, body, div, span, applet, object, iframe,
@@ -75,13 +75,14 @@ a {
 
 function App() {
   const isDark = useRecoilValue(isDarkAtom);
-  console.warn = console.error = () => {};
   return (
     <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <Router />
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          <GlobalStyle />
+          <Router />
+        </ThemeProvider>
+      </HelmetProvider>
     </>
   );
 }
