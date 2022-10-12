@@ -119,11 +119,11 @@ function Price() {
       <Overview isDark={isDark}>
         <OverviewItem>
           <span>ath price</span>
-          <span>{data?.quotes.USD.ath_price.toFixed(3)}</span>
+          <span>{data?.quotes.USD.ath_price?.toFixed(3)}</span>
         </OverviewItem>
         <OverviewItem>
           <span>ath date</span>
-          <span>{data?.quotes.USD.ath_date.slice(0, 10)}</span>
+          <span>{data?.quotes.USD.ath_date?.slice(0, 10)}</span>
         </OverviewItem>
         <OverviewItem>
           <span>volume 24h</span>
