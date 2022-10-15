@@ -10,9 +10,7 @@ export function fetchCoinInfo(coinId: string | undefined) {
 }
 
 export function fetchAllCoinTickers() {
-  return fetch(`https://api.coinpaprika.com/v1/tickers`).then((res) =>
-    res.json()
-  );
+  return fetch(`${BASE_URL}/tickers`).then((res) => res.json());
 }
 
 export function fetchCoinTickers(coinId: string | undefined) {
