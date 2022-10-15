@@ -1,10 +1,11 @@
-import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { createGlobalStyle } from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
 import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -74,16 +75,17 @@ a {
 `;
 
 function App() {
+  const queryClient = new QueryClient();
   const isDark = useRecoilValue(isDarkAtom);
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <HelmetProvider>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           <GlobalStyle />
           <Router />
         </ThemeProvider>
       </HelmetProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 

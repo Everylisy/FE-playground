@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -108,7 +108,7 @@ interface Icoin {
 function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
-  const { isLoading, data } = useQuery<Icoin[]>("allCoins", fetchCoins);
+  const { isLoading, data } = useQuery<Icoin[]>(["allCoins"], fetchCoins);
 
   return (
     <Container>
