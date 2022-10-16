@@ -1,11 +1,13 @@
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchAllCoinTickers } from "../api";
 import { isDarkAtom } from "../atoms";
 import { IPriceData } from "./Coin";
+import MoonIcon from "../assets/MoonIcon";
+import SunIcon from "../assets/SunIcon";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -16,7 +18,8 @@ const Container = styled.div`
 const Header = styled.header`
   height: 15vh;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -98,27 +101,19 @@ const Volume = styled(Symbol)<VolumeProp>`
 `;
 
 const DarkModeBtn = styled.button`
-  display: inline-block;
-  width: 130px;
-  height: 40px;
-  margin-left: auto;
-  padding: 10px 25px;
-  font-family: "Montserrat", sans-serif;
-  color: white;
-  background-color: ${(props) => props.theme.accentColor};
-  border: 0.5px solid ${(props) => props.theme.accentColor};
+  background: none;
+  border: none;
   cursor: pointer;
+  border-radius: 20%;
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-right: 0.25rem;
+  color: ${(props) => props.theme.textColor};
+  position: relative;
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 `;
-
-interface Icoin {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-}
 
 interface VolumeProp {
   percent: number;
@@ -127,6 +122,7 @@ interface VolumeProp {
 function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading, data: tickersData } = useQuery<IPriceData[]>(
     ["allTickers"],
     fetchAllCoinTickers
@@ -139,7 +135,9 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>COIN</Title>
-        <DarkModeBtn onClick={toggleDarkAtom}>Dark Mode</DarkModeBtn>
+        <DarkModeBtn onClick={toggleDarkAtom}>
+          {isDark ? <MoonIcon /> : <SunIcon />}
+        </DarkModeBtn>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
