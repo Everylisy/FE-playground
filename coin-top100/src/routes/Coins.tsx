@@ -85,7 +85,17 @@ const Symbol = styled.span`
   color: ${(props) => props.theme.greyTextColor};
 `;
 
-const Volume = styled(Symbol)``;
+const Volume = styled(Symbol)<VolumeProp>`
+  color: ${(props) => {
+    if (props.percent >= 0) {
+      return "#2ecc71";
+    } else {
+      return "#eb2f06";
+    }
+  }};
+  font-size: 14px;
+  font-weight: 500;
+`;
 
 const DarkModeBtn = styled.button`
   display: inline-block;
@@ -108,6 +118,10 @@ interface Icoin {
   is_new: boolean;
   is_active: boolean;
   type: string;
+}
+
+interface VolumeProp {
+  percent: number;
 }
 
 function Coins() {
@@ -145,7 +159,9 @@ function Coins() {
                   </CoinName>
                   <CoinPrice>
                     {coin.quotes.USD.price.toFixed(2)}
-                    <Volume>{coin.quotes.USD.percent_change_24h + "%"}</Volume>
+                    <Volume percent={coin.quotes.USD.percent_change_24h}>
+                      {coin.quotes.USD.percent_change_24h + "%"}
+                    </Volume>
                   </CoinPrice>
                 </CoinInfo>
               </Link>
