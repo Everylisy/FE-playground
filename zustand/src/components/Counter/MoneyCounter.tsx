@@ -1,4 +1,4 @@
-import { useMoneyStore } from '../App';
+import { useMoneyStore } from '../../store/store';
 
 function Counter() {
   const { money } = useMoneyStore();
