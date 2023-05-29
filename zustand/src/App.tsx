@@ -1,10 +1,10 @@
-import Counter from './pages/Counter';
+import UserInfo from './pages/UserInfo';
 
 const App = () => {
   return (
     <>
       <div>Hello Zustand!</div>
-      <Counter />
+      <UserInfo />
     </>
   );
 };
