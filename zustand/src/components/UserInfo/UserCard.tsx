@@ -1,7 +1,9 @@
 import { userInfoStore } from '../../store/store';
 
 const UserCard = () => {
-  const { user, updateUser, updatePreferences } = userInfoStore();
+  const user = userInfoStore((state) => state.user);
+  const updateUser = userInfoStore((state) => state.updateUser);
+  const updatePreferences = userInfoStore((state) => state.updatePreferences);
 
   const updateNameHandler = () => updateUser({ name: '하니' });
   const updateAgeHandler = () => updateUser({ age: 18 });
